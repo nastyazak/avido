@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+    <title>Объявление {{announcement.id }}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="about">
+            <div class="announcements">
+                <div class="alert alert-success" role="alert">
+                    <b>Название объявления: </b> {{ announcement.name_ad }}<br><br>
+                    <img src="{{ announcement.image.url }}" style="width:400px; display: block; margin: auto"><br>
+                    <b>Категория: </b> {{ announcement.category }}<br>
+                    <b>Город: </b> {{ announcement.city }}<br>
+                    <b>Описание объявления: </b> {{ announcement.description_ad }}<br>
+                    <b>Дата публикации: </b> {{ announcement.date_pub }}<br>
+                    <b>Стоимость: </b> {{ announcement.price }}<br>
+                    <b>Пользователь: </b> {{ announcement.user }}<br>
+                    <b>Количество просмотров: </b> {{ announcement.number_views }}<br>
+                    <b>Статус: </b> {{ announcement.status_ad }}<br>
+                </div>
+            </div>
+            <div class="seller">
+                <div class="alert alert-success" role="alert">
+                    <b>Имя: </b> {{ seller.name }}<br>
+                    <b>Фамилия: </b> {{ seller.surname }}<br>
+                    <b>Адрес электронной почты: </b> {{ seller.email }}<br>
+                    <b>Номер телефона: </b> {{ seller.phone }}<br>
+                    <b>Когда удобно принимать звонки: </b> {{ seller.convenient_time }}<br><br>
+                    <a href="#" class="btn btn-success">Связаться с продавцом</a><br>
+                    <a class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px" href="{% url 'mainapp:index' %}" role="button">Назад</a><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

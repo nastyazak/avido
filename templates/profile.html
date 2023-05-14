@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+    <title>Личный кабинет</title>
+</head>
+<body>
+<div class="container">
+        <div class="about">
+            <div class="seller">
+                <div class="alert alert-success" role="alert">
+                    <b>Имя: </b> {{ seller.name }}<br>
+                    <b>Фамилия: </b> {{ seller.surname }}<br>
+                    <b>Адрес электронной почты: </b> {{ seller.email }}<br>
+                    <b>Номер телефона: </b> {{ seller.phone }}<br>
+                    <b>Когда удобно принимать звонки: </b> {{ seller.convenient_time }}<br><br>
+                    <a class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px" href="{% url 'mainapp:index' %}" role="button">Объявления</a><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
