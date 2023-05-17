@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+    webcs:
+        build:
+          # где лежит докер файл
+          context: ./
+          dockerfile: Dockerfile
+
+        command: sh entrypoint.sh
+        # указываем порты на которых будет работать приложение
+        ports:
+            - "8000:8000"
+        # пока не будет работать бд, запустить приложение нельзя
+        depends_on:
+            - db
+    db:
+        restart: always
+        build:
+          context: ./postgres
+          dockerfile: Dockerfile
+        # указываем пароль для юзера
+        environment:
+          #POSTGRESS_USER: admin
+          POSTGRES_PASSWORD: 7
+          #POSTGRESS_DB: lab9
+        # порты на которых будет работать бд
+        ports:
+            - "5432:5432"

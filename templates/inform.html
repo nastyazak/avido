@@ -11,7 +11,6 @@
             <div class="announcements">
                 <div class="alert alert-success" role="alert">
                     <b>Название объявления: </b> {{ announcement.name_ad }}<br><br>
-                    <img src="{{ announcement.image.url }}" style="width:400px; display: block; margin: auto"><br>
                     <b>Категория: </b> {{ announcement.category }}<br>
                     <b>Город: </b> {{ announcement.city }}<br>
                     <b>Описание объявления: </b> {{ announcement.description_ad }}<br>
@@ -24,13 +23,15 @@
             </div>
             <div class="seller">
                 <div class="alert alert-success" role="alert">
-                    <b>Имя: </b> {{ seller.name }}<br>
-                    <b>Фамилия: </b> {{ seller.surname }}<br>
+                    <b>Продавец: </b> {{ seller.username }}<br>
+                    <b>Имя: </b> {{ seller.first_name }}<br>
+                    <b>Фамилия: </b> {{ seller.last_name }}<br>
+                    <b>Отчество: </b> {{ seller.patronymic }}<br>
                     <b>Адрес электронной почты: </b> {{ seller.email }}<br>
                     <b>Номер телефона: </b> {{ seller.phone }}<br>
                     <b>Когда удобно принимать звонки: </b> {{ seller.convenient_time }}<br><br>
                     <a href="#" class="btn btn-success">Связаться с продавцом</a><br>
-                    <a class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px" href="{% url 'mainapp:index' %}" role="button">Назад</a><br>
+                    <a class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px" href="{% url 'mainapp:index' %}" role="button">Главная</a><br>
                 </div>
             </div>
         </div>

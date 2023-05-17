@@ -13,7 +13,7 @@
             <ul class="navbar-nav">
                 {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class='col d-flex justify-content-around' aria-current="page" href="#">Личный кабинет</a>
+                    <a class='col d-flex justify-content-around' aria-current="page" href="{% url 'mainapp:profile' request.user.id %}">Личный кабинет</a>
                 </li>
                 <li class="nav-item">
                     <a class='col d-flex justify-content-around' aria-current="page" href="{% url 'mainapp:logout' %}">Выйти</a>
@@ -35,7 +35,7 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-header" style="text-align: center">{{ i.name_ad }}<br></div>
                     <div class="card-body">
-                        <img src="{{ i.image.url }}" style="width:150px; display: block; margin: auto"><br>
+                        <img src="{{ i.image.url }}" style="width:150px; display: block; margin: auto" alt="picture"><br>
                         <p class="card-text">Стоимость: {{ i.price }}</p>
                         <p class="card-text">Город: {{ i.city }}</p>
                         <p class="card-text">Дата публикации: {{ i.date_pub }}</p>

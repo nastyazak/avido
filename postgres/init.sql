@@ -1,0 +1,4 @@
+CREATE USER admin WITH PASSWORD '7';
+
+CREATE DATABASE djangoProject;
+GRANT ALL PRIVILEGES ON DATABASE djangoProject TO admin;

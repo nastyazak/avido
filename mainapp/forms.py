@@ -2,18 +2,19 @@ from django.forms import ModelForm
 from django import forms
 from .models import *
 
-"""
-class ClientForm(ModelForm):
+
+class UserForm(ModelForm):
     class Meta:
-        model = Client
-        fields = {'name', 'surname', 'patronymic', 'role', 'email', 'phone', 'convenient_time', 'status_user'}
+        model = User
+        fields = {'username', 'first_name', 'last_name', 'patronymic', 'patronymic', 'email', 'phone',
+                  'convenient_time'}
 
 
 class AnnouncementForm(ModelForm):
     class Meta:
         model = Announcement
-        fields = {'name_ad', 'category', 'city', 'description_ad', 'date_pub', 'price', 'user', 'number_views', 'image', 
-                  'status_ad'}
+        fields = {'name_ad', 'category', 'city', 'description_ad', 'price', 'user', 'number_views',
+                  'image'}
 
 
 class CategoryForm(ModelForm):
@@ -32,49 +33,48 @@ class RegionForm(ModelForm):
     class Meta:
         model = Region
         fields = {'name_reg'}
-        
-        
+
+
 class ModerationAdForm(ModelForm):
     class Meta:
         model = ModerationAd
         fields = {'date_moder', 'ad', 'user', 'publication', 'reason'}
-"""
+
 
 class LoginForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)      # перевод пароля в текст
+    password = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self):
         # проверка введенных данных
-        username = self.cleaned_data['username']    # передаем очищенные данные
+        username = self.cleaned_data['username']
         password = self.cleaned_data['password']
-        if not Client.objects.filter(username=username).exists():
+        if not User.objects.filter(username=username).exists():
             raise forms.ValidationError(f'Пользователь {username} не найден')
-        user = Client.objects.filter(username=username).first()
+        user = User.objects.filter(username=username).first()
         if user:
             if not user.check_password(password):
                 raise forms.ValidationError('Неверный пароль')
         return self.cleaned_data
 
     class Meta:
-        model = Client
-        fields = {'name', 'surname'}   # поля в форме
+        model = User
+        fields = {'username', 'password'}
 
 
 class RegistrationForm(forms.ModelForm):
-    """
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     email = forms.EmailField(required=True)
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if Client.objects.filter(email=email).exists():
+        if User.objects.filter(email=email).exists():
             raise forms.ValidationError('Данный email занят')
         return email
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        if Client.objects.filter(username=username).exists():
+        if User.objects.filter(username=username).exists():
             raise forms.ValidationError(f'Пользователь с именем {username} уже зарегистрирован')
         return username
 
@@ -84,7 +84,8 @@ class RegistrationForm(forms.ModelForm):
         if password != confirm_password:
             raise forms.ValidationError('Пароли не совпадают')
         return self.cleaned_data
-"""
+
     class Meta:
-        model = Client
-        fields = ['name', 'surname']
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'patronymic', 'email', 'phone',
+                  'convenient_time', 'password', 'confirm_password']

@@ -1,3 +1,4 @@
+{% load auth_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,18 +8,143 @@
 </head>
 <body>
 <div class="container">
-        <div class="about">
-            <div class="seller">
-                <div class="alert alert-success" role="alert">
-                    <b>Имя: </b> {{ seller.name }}<br>
-                    <b>Фамилия: </b> {{ seller.surname }}<br>
-                    <b>Адрес электронной почты: </b> {{ seller.email }}<br>
-                    <b>Номер телефона: </b> {{ seller.phone }}<br>
-                    <b>Когда удобно принимать звонки: </b> {{ seller.convenient_time }}<br><br>
-                    <a class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px" href="{% url 'mainapp:index' %}" role="button">Объявления</a><br>
-                </div>
+    <div class="about">
+        <div class="seller">
+            <div class="alert alert-success" role="alert">
+                <b>Имя: </b> {{ seller.first_name }}<br>
+                <b>Фамилия: </b> {{ seller.last_name }}<br>
+                <b>Адрес электронной почты: </b> {{ seller.email }}<br>
+                <b>Номер телефона: </b> {{ seller.phone }}<br>
+                <b>Когда удобно принимать звонки: </b> {{ seller.convenient_time }}<br><br>
+                <a class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px" href="{% url 'mainapp:index' %}" role="button">Главная</a><br>
+                <a class="btn btn-warning" href="{% url 'mainapp:info_update' seller.id %}" role="button" style="margin-bottom: 20px">Изменить данные</a>
+                <a class="btn btn-warning" href="{% url 'mainapp:info_delete' seller.id %}" role="button" style="margin-bottom: 20px">Удалить данные</a>
             </div>
         </div>
+        {% if request.user.is_superuser or request.user|has_group:"Администратор" or request.user|has_group:"Модератор" %}
+        <div class="row align-items-start">
+            {% for i in announcement %}
+                <div class="col" style="padding-top: 35px">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-header" style="text-align: center">{{ i.name_ad }}<br></div>
+                        <div class="card-body">
+                            <p class="card-text">Стоимость: {{ i.price }}</p>
+                            <p class="card-text">Город: {{ i.city }}</p>
+                            <p class="card-text">Дата публикации: {{ i.date_pub }}</p>
+                            <p class="card-text">Количество просмотров: {{ i.number_views }}</p>
+                            <a href="{% url 'mainapp:announcement' i.id %}" class="btn btn-outline-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div><br>
+        <h1>Модерации объявлений</h1>
+        <div class="time-work">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Дата модерации</th>
+                  <th scope="col">Оъявление</th>
+                  <th scope="col">Модератор</th>
+                  <th scope="col">Публикация</th>
+                  <th scope="col">Причина отклонения</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for i in moderation %}
+                      <tr>
+                      <th scope="row">{{ i.date_moder }}</th>
+                          <td>{{ i.ad }}</td>
+                          <td>{{ i.user }}</td>
+                          <td>{{ i.publication }}</td>
+                          <td>{{ i.reason }}</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if request.user.is_superuser or request.user|has_group:"Администратор" %}
+            <h1>Категории</h1>
+            <div class="time-work">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Название категории</th>
+                      <th scope="col">Код</th>
+                      <th scope="col">Родительская категория</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for i in category %}
+                          <tr>
+                          <th scope="row">{{ i.name_cat }}</th>
+                              <td>{{ i.code }}</td>
+                              <td>{{ i.parent }}</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+            <h1>Города</h1>
+            <div class="time-work">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Название города</th>
+                      <th scope="col">Регион</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for i in cities %}
+                          <tr>
+                          <th scope="row">{{ i.name_city }}</th>
+                              <td>{{ i.region }}</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+            <h1>Регионы</h1>
+            <div class="time-work">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Название региона</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for i in region %}
+                          <tr>
+                          <th scope="row">{{ i.name_reg }}</th>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        {% endif %}
+        {% if request.user|has_group:"Пользователь" %}
+            <a class="btn btn-outline-success" href="{% url 'mainapp:add'%}" role="button">Создать новое объявление</a>
+            <div class="row align-items-start">
+                {% for i in announcement_user %}
+                    <div class="col" style="padding-top: 35px">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header" style="text-align: center">{{ i.name_ad }}<br></div>
+                            <div class="card-body">
+                                <p class="card-text">Стоимость: {{ i.price }}</p>
+                                <p class="card-text">Город: {{ i.city }}</p>
+                                <p class="card-text">Дата публикации: {{ i.date_pub }}</p>
+                                <p class="card-text">Количество просмотров: {{ i.number_views }}</p>
+                                <a href="{% url 'mainapp:announcement' i.id %}" class="btn btn-outline-primary" style="margin-bottom: 20px">Подробнее</a>
+                                <a class="btn btn-outline-warning" href="{% url 'mainapp:update' i.id %}" role="button" style="margin-bottom: 20px">Изменить объявление</a>
+                                <a class="btn btn-outline-danger" href="{% url 'mainapp:delete' i.id %}" role="button" style="margin-bottom: 20px">Удалить объявление</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div><br>
+        {% endif %}
     </div>
+</div>
 </body>
 </html>
